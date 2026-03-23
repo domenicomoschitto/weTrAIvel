@@ -6,10 +6,8 @@ const u = (id) => ({
   image_url: `https://images.unsplash.com/photo-${id}?auto=format&w=800&q=80`,
   thumb_url: `https://images.unsplash.com/photo-${id}?auto=format&w=400&h=400&fit=crop&q=70`,
 })
-const s = (q) => ({
-  image_url: `https://source.unsplash.com/800x500/?${encodeURIComponent(q)}`,
-  thumb_url: `https://source.unsplash.com/400x400/?${encodeURIComponent(q)}`,
-})
+// source.unsplash.com is deprecated — s() is a no-op until replaced with u() IDs
+const s = (_q) => ({})
 
 export const PLACES = [
 
@@ -25,10 +23,10 @@ export const PLACES = [
   { name: 'lombardy',         display_name: 'Lombardy',         aliases: ['lombardia'],           type: 'region', country_code: 'IT', ...u('1520175480-d41f09571396') },
   { name: 'veneto',           display_name: 'Veneto',           type: 'region',                   country_code: 'IT', ...u('1514890547357-a9ee288728e0') },
   { name: 'lazio',            display_name: 'Lazio',            type: 'region',                   country_code: 'IT', ...u('1552832230-c0197dd311b5') },
-  { name: 'campania',         display_name: 'Campania',         type: 'region',                   country_code: 'IT', ...s('naples italy coast') },
+  { name: 'campania',         display_name: 'Campania',         type: 'region',                   country_code: 'IT', ...u('1693849908818-9d002fe35512') },
   { name: 'puglia',           display_name: 'Puglia',           aliases: ['apulia'],              type: 'region', country_code: 'IT', ...s('puglia trulli alberobello') },
   { name: 'emilia-romagna',   display_name: 'Emilia-Romagna',   type: 'region',                   country_code: 'IT', ...s('bologna italy') },
-  { name: 'liguria',          display_name: 'Liguria',          type: 'region',                   country_code: 'IT', ...s('cinque terre liguria') },
+  { name: 'liguria',          display_name: 'Liguria',          type: 'region',                   country_code: 'IT', ...u('1629203328770-42cdc08ca727') },
   { name: 'piemonte',         display_name: 'Piemonte',         aliases: ['piedmont'],            type: 'region', country_code: 'IT', ...s('piedmont italy vineyard') },
   { name: 'calabria',         display_name: 'Calabria',         type: 'region',                   country_code: 'IT', ...s('calabria italy coast') },
   { name: 'marche',           display_name: 'Marche',           type: 'region',                   country_code: 'IT', ...s('marche italy hills') },
@@ -41,11 +39,11 @@ export const PLACES = [
   { name: 'valle-d-aosta',    display_name: "Valle d'Aosta",    aliases: ["valle d'aosta",'aosta valley'], type: 'region', country_code: 'IT', ...s('aosta valley alps italy') },
 
   // Italy — major cities & provinces
-  { name: 'rome',       display_name: 'Rome',       aliases: ['roma'],         region: 'lazio',          type: 'city', country_code: 'IT', ...u('1552832230-c0197dd311b5') },
-  { name: 'florence',   display_name: 'Florence',   aliases: ['firenze'],      region: 'tuscany',        type: 'city', country_code: 'IT', ...u('1543429776-2782fc8e1acd') },
-  { name: 'venice',     display_name: 'Venice',     aliases: ['venezia'],      region: 'veneto',         type: 'city', country_code: 'IT', ...u('1514890547357-a9ee288728e0') },
-  { name: 'milan',      display_name: 'Milan',      aliases: ['milano'],       region: 'lombardy',       type: 'city', country_code: 'IT', ...u('1520175480-d41f09571396') },
-  { name: 'naples',     display_name: 'Naples',     aliases: ['napoli'],       region: 'campania',       type: 'city', country_code: 'IT', ...s('naples italy vesuvius') },
+  { name: 'rome',       display_name: 'Rome',       aliases: ['roma'],         region: 'lazio',          type: 'city', country_code: 'IT', ...u('1698103182362-51abdc45d008') },
+  { name: 'florence',   display_name: 'Florence',   aliases: ['firenze'],      region: 'tuscany',        type: 'city', country_code: 'IT', ...u('1598615301361-6336365e8235') },
+  { name: 'venice',     display_name: 'Venice',     aliases: ['venezia'],      region: 'veneto',         type: 'city', country_code: 'IT', ...u('1653670477141-0a91c4f09408') },
+  { name: 'milan',      display_name: 'Milan',      aliases: ['milano'],       region: 'lombardy',       type: 'city', country_code: 'IT', ...u('1710663892898-30c687291c9c') },
+  { name: 'naples',     display_name: 'Naples',     aliases: ['napoli'],       region: 'campania',       type: 'city', country_code: 'IT', ...u('1693849908818-9d002fe35512') },
   { name: 'bologna',    display_name: 'Bologna',    type: 'city',              region: 'emilia-romagna', country_code: 'IT', ...s('bologna italy piazza') },
   { name: 'turin',      display_name: 'Turin',      aliases: ['torino'],       region: 'piemonte',       type: 'city', country_code: 'IT', ...s('turin torino italy') },
   { name: 'genoa',      display_name: 'Genoa',      aliases: ['genova'],       region: 'liguria',        type: 'city', country_code: 'IT', ...s('genoa genova italy port') },
@@ -82,13 +80,14 @@ export const PLACES = [
   { name: 'grosseto',   display_name: 'Grosseto',   type: 'city',              region: 'tuscany',        country_code: 'IT', ...s('maremma tuscany coast') },
   { name: 'matera',     display_name: 'Matera',     type: 'city',              region: 'basilicata',     country_code: 'IT', ...s('matera sassi cave dwellings') },
   { name: 'potenza',    display_name: 'Potenza',    type: 'city',              region: 'basilicata',     country_code: 'IT', ...s('potenza basilicata italy') },
-  { name: 'amalfi',     display_name: 'Amalfi',     type: 'city',              region: 'campania',       country_code: 'IT', ...s('amalfi coast positano') },
-  { name: 'positano',   display_name: 'Positano',   type: 'city',              region: 'campania',       country_code: 'IT', ...s('positano amalfi coast') },
+  { name: 'amalfi',     display_name: 'Amalfi',     type: 'city',              region: 'campania',       country_code: 'IT', ...u('1583844056361-4418a8f2a985') },
+  { name: 'positano',   display_name: 'Positano',   type: 'city',              region: 'campania',       country_code: 'IT', ...u('1561956021-947f09ae0101') },
   { name: 'sorrento',   display_name: 'Sorrento',   type: 'city',              region: 'campania',       country_code: 'IT', ...s('sorrento italy coast') },
   { name: 'capri',      display_name: 'Capri',      type: 'city',              region: 'campania',       country_code: 'IT', ...s('capri island italy blue grotto') },
   { name: 'salerno',    display_name: 'Salerno',    type: 'city',              region: 'campania',       country_code: 'IT', ...s('salerno campania italy') },
   { name: 'caserta',    display_name: 'Caserta',    type: 'city',              region: 'campania',       country_code: 'IT', ...s('caserta royal palace') },
-  { name: 'la-spezia',  display_name: 'La Spezia',  aliases: ['la spezia'],    region: 'liguria',        type: 'city', country_code: 'IT', ...s('cinque terre la spezia liguria') },
+  { name: 'cinque-terre', display_name: 'Cinque Terre', aliases: ['cinque terre'], region: 'liguria',       type: 'city', country_code: 'IT', ...u('1629203328770-42cdc08ca727') },
+  { name: 'la-spezia',  display_name: 'La Spezia',  aliases: ['la spezia'],    region: 'liguria',        type: 'city', country_code: 'IT', ...u('1629203328770-42cdc08ca727') },
   { name: 'savona',     display_name: 'Savona',     type: 'city',              region: 'liguria',        country_code: 'IT', ...s('savona liguria italy') },
   { name: 'imperia',    display_name: 'Imperia',    type: 'city',              region: 'liguria',        country_code: 'IT', ...s('imperia liguria italy') },
   { name: 'bergamo',    display_name: 'Bergamo',    type: 'city',              region: 'lombardy',       country_code: 'IT', ...s('bergamo alta citta italy') },
@@ -117,7 +116,7 @@ export const PLACES = [
   // ────────────────────────────────────────
   // SPAIN — ES
   // ────────────────────────────────────────
-  { name: 'spain', display_name: 'Spain', type: 'country', country_code: 'ES', gradient: '#c0392b,#8e44ad,#2980b9', ...s('spain landmark travel') },
+  { name: 'spain', display_name: 'Spain', type: 'country', country_code: 'ES', gradient: '#c0392b,#8e44ad,#2980b9', ...u('1707770902294-cfc240892588') },
 
   // Regions
   { name: 'catalonia',      display_name: 'Catalonia',      aliases: ['cataluña','catalunya'], type: 'region', country_code: 'ES', ...s('barcelona catalonia spain') },
@@ -139,9 +138,9 @@ export const PLACES = [
   { name: 'la-rioja',       display_name: 'La Rioja',       type: 'region',                   country_code: 'ES', ...s('la rioja spain vineyard') },
 
   // Spain — cities
-  { name: 'barcelona',      display_name: 'Barcelona',      region: 'catalonia',        type: 'city', country_code: 'ES', ...s('barcelona sagrada familia') },
-  { name: 'madrid',         display_name: 'Madrid',         region: 'madrid-region',    type: 'city', country_code: 'ES', ...s('madrid spain gran via') },
-  { name: 'seville',        display_name: 'Seville',        aliases: ['sevilla'],       region: 'andalusia', type: 'city', country_code: 'ES', ...s('seville sevilla cathedral') },
+  { name: 'barcelona',      display_name: 'Barcelona',      region: 'catalonia',        type: 'city', country_code: 'ES', ...u('1583422409516-2895a77efded') },
+  { name: 'madrid',         display_name: 'Madrid',         region: 'madrid-region',    type: 'city', country_code: 'ES', ...u('1707770902294-cfc240892588') },
+  { name: 'seville',        display_name: 'Seville',        aliases: ['sevilla'],       region: 'andalusia', type: 'city', country_code: 'ES', ...u('1715463187727-7b1d6d60a6bd') },
   { name: 'granada',        display_name: 'Granada',        region: 'andalusia',        type: 'city', country_code: 'ES', ...s('granada alhambra spain') },
   { name: 'malaga',         display_name: 'Málaga',         aliases: ['malaga'],        region: 'andalusia', type: 'city', country_code: 'ES', ...s('malaga spain coast') },
   { name: 'cordoba',        display_name: 'Córdoba',        aliases: ['cordoba'],       region: 'andalusia', type: 'city', country_code: 'ES', ...s('cordoba mezquita spain') },
@@ -165,21 +164,21 @@ export const PLACES = [
   // ────────────────────────────────────────
   // PORTUGAL — PT
   // ────────────────────────────────────────
-  { name: 'portugal', display_name: 'Portugal', type: 'country', country_code: 'PT', gradient: '#006400,#ff0000,#ffd700', ...s('lisbon portugal tram') },
+  { name: 'portugal', display_name: 'Portugal', type: 'country', country_code: 'PT', gradient: '#006400,#ff0000,#ffd700', ...u('1588598598071-67b17ceb4c5c') },
 
-  { name: 'algarve',      display_name: 'Algarve',       aliases: ['faro district'],    type: 'region', country_code: 'PT', ...s('algarve portugal cliffs') },
+  { name: 'algarve',      display_name: 'Algarve',       aliases: ['faro district'],    type: 'region', country_code: 'PT', ...u('1658437192420-13cd43bbe2bd') },
   { name: 'alentejo',     display_name: 'Alentejo',      type: 'region',                country_code: 'PT', ...s('alentejo portugal vineyard') },
   { name: 'douro-valley', display_name: 'Douro Valley',  aliases: ['douro'],            type: 'region', country_code: 'PT', ...s('douro valley porto wine') },
   { name: 'minho',        display_name: 'Minho',         type: 'region',                country_code: 'PT', ...s('minho portugal braga') },
   { name: 'madeira',      display_name: 'Madeira',       type: 'region',                country_code: 'PT', ...s('madeira island portugal') },
   { name: 'azores',       display_name: 'Azores',        aliases: ['açores'],           type: 'region', country_code: 'PT', ...s('azores portugal volcanic') },
 
-  { name: 'lisbon',       display_name: 'Lisbon',        aliases: ['lisboa'],           type: 'city', country_code: 'PT', ...s('lisbon portugal tram alfama') },
-  { name: 'porto',        display_name: 'Porto',         type: 'city',                  country_code: 'PT', ...s('porto portugal ribeira') },
-  { name: 'sintra',       display_name: 'Sintra',        type: 'city',                  country_code: 'PT', ...s('sintra portugal palace') },
-  { name: 'faro',         display_name: 'Faro',          type: 'city',                  region: 'algarve', country_code: 'PT', ...s('faro algarve portugal') },
-  { name: 'lagos',        display_name: 'Lagos',         type: 'city',                  region: 'algarve', country_code: 'PT', ...s('lagos algarve portugal sea') },
-  { name: 'albufeira',    display_name: 'Albufeira',     type: 'city',                  region: 'algarve', country_code: 'PT', ...s('albufeira algarve portugal') },
+  { name: 'lisbon',       display_name: 'Lisbon',        aliases: ['lisboa'],           type: 'city', country_code: 'PT', ...u('1581278883242-32ad25412117') },
+  { name: 'porto',        display_name: 'Porto',         type: 'city',                  country_code: 'PT', ...u('1591040973846-61888c2de010') },
+  { name: 'sintra',       display_name: 'Sintra',        type: 'city',                  country_code: 'PT', ...u('1563804447971-6ebd84f8bbd9') },
+  { name: 'faro',         display_name: 'Faro',          type: 'city',                  region: 'algarve', country_code: 'PT', ...u('1658437192420-13cd43bbe2bd') },
+  { name: 'lagos',        display_name: 'Lagos',         type: 'city',                  region: 'algarve', country_code: 'PT', ...u('1658437192420-13cd43bbe2bd') },
+  { name: 'albufeira',    display_name: 'Albufeira',     type: 'city',                  region: 'algarve', country_code: 'PT', ...u('1658437192420-13cd43bbe2bd') },
   { name: 'braga',        display_name: 'Braga',         type: 'city',                  region: 'minho',   country_code: 'PT', ...s('braga portugal sanctuary') },
   { name: 'coimbra',      display_name: 'Coimbra',       type: 'city',                  country_code: 'PT', ...s('coimbra portugal university') },
   { name: 'evora',        display_name: 'Évora',         aliases: ['evora'],            type: 'city', region: 'alentejo', country_code: 'PT', ...s('evora portugal roman temple') },
@@ -196,7 +195,7 @@ export const PLACES = [
   // ────────────────────────────────────────
   // GREECE — GR
   // ────────────────────────────────────────
-  { name: 'greece', display_name: 'Greece', type: 'country', country_code: 'GR', gradient: '#003476,#0d5eaf,#ffffff', ...s('santorini greece blue domes') },
+  { name: 'greece', display_name: 'Greece', type: 'country', country_code: 'GR', gradient: '#003476,#0d5eaf,#ffffff', ...u('1655916355045-0f94f47b398c') },
 
   { name: 'attica',            display_name: 'Attica',            aliases: ['attiki'],          type: 'region', country_code: 'GR', ...s('athens acropolis greece') },
   { name: 'crete',             display_name: 'Crete',             aliases: ['kriti'],           type: 'region', country_code: 'GR', ...s('crete greece gorge sea') },
@@ -209,10 +208,10 @@ export const PLACES = [
   { name: 'epirus',            display_name: 'Epirus',            type: 'region',               country_code: 'GR', ...s('epirus greece mountains') },
   { name: 'western-greece',    display_name: 'Western Greece',    type: 'region',               country_code: 'GR', ...s('patras western greece') },
 
-  { name: 'athens',       display_name: 'Athens',       aliases: ['athina'],   region: 'attica',            type: 'city', country_code: 'GR', ...s('athens acropolis parthenon') },
+  { name: 'athens',       display_name: 'Athens',       aliases: ['athina'],   region: 'attica',            type: 'city', country_code: 'GR', ...u('1655916355045-0f94f47b398c') },
   { name: 'thessaloniki', display_name: 'Thessaloniki', type: 'city',          region: 'central-macedonia', country_code: 'GR', ...s('thessaloniki greece white tower') },
-  { name: 'santorini',    display_name: 'Santorini',    aliases: ['thira'],    region: 'aegean-islands',    type: 'city', country_code: 'GR', ...s('santorini oia blue domes') },
-  { name: 'mykonos',      display_name: 'Mykonos',      region: 'aegean-islands', type: 'city',             country_code: 'GR', ...s('mykonos greece windmills') },
+  { name: 'santorini',    display_name: 'Santorini',    aliases: ['thira'],    region: 'aegean-islands',    type: 'city', country_code: 'GR', ...u('1506905925-d8149cf06281') },
+  { name: 'mykonos',      display_name: 'Mykonos',      region: 'aegean-islands', type: 'city',             country_code: 'GR', ...u('1669842360697-c7eba7310a85') },
   { name: 'rhodes',       display_name: 'Rhodes',       aliases: ['rodos'],    region: 'dodecanese',        type: 'city', country_code: 'GR', ...s('rhodes old town greece') },
   { name: 'corfu',        display_name: 'Corfu',        aliases: ['kerkyra'], region: 'ionian-islands',    type: 'city', country_code: 'GR', ...s('corfu old town greece') },
   { name: 'zakynthos',    display_name: 'Zakynthos',    aliases: ['zante'],    region: 'ionian-islands',    type: 'city', country_code: 'GR', ...s('zakynthos navagio beach') },
@@ -235,9 +234,9 @@ export const PLACES = [
   // ────────────────────────────────────────
   // MALTA — MT
   // ────────────────────────────────────────
-  { name: 'malta', display_name: 'Malta', type: 'country', country_code: 'MT', gradient: '#cf0921,#ffffff,#cf0921', ...s('valletta malta harbour') },
+  { name: 'malta', display_name: 'Malta', type: 'country', country_code: 'MT', gradient: '#cf0921,#ffffff,#cf0921', ...u('1663535907182-aab825b412fa') },
 
-  { name: 'valletta',     display_name: 'Valletta',     type: 'city', country_code: 'MT', ...s('valletta malta grand harbour') },
+  { name: 'valletta',     display_name: 'Valletta',     type: 'city', country_code: 'MT', ...u('1663535907182-aab825b412fa') },
   { name: 'gozo',         display_name: 'Gozo',         aliases: ['ghawdex'], type: 'city', country_code: 'MT', ...s('gozo azure window malta') },
   { name: 'mdina',        display_name: 'Mdina',        type: 'city', country_code: 'MT', ...s('mdina malta silent city') },
   { name: 'sliema',       display_name: 'Sliema',       type: 'city', country_code: 'MT', ...s('sliema malta waterfront') },
@@ -264,7 +263,7 @@ export const PLACES = [
   // ────────────────────────────────────────
   // FRANCE — FR
   // ────────────────────────────────────────
-  { name: 'france', display_name: 'France', type: 'country', country_code: 'FR', gradient: '#002395,#ffffff,#ED2939', ...s('paris eiffel tower france') },
+  { name: 'france', display_name: 'France', type: 'country', country_code: 'FR', gradient: '#002395,#ffffff,#ED2939', ...u('1499856374590-94defa2ebfb9') },
 
   // Regions
   { name: 'ile-de-france',    display_name: 'Île-de-France',       aliases: ['ile de france'],      type: 'region', country_code: 'FR', ...s('paris france eiffel louvre') },
@@ -282,8 +281,8 @@ export const PLACES = [
   { name: 'corsica',          display_name: 'Corsica',             aliases: ['corse'],              type: 'region', country_code: 'FR', ...s('corsica france island sea') },
 
   // France — cities
-  { name: 'paris',       display_name: 'Paris',       region: 'ile-de-france', type: 'city', country_code: 'FR', ...s('paris eiffel tower night') },
-  { name: 'nice',        display_name: 'Nice',        region: 'french-riviera', type: 'city', country_code: 'FR', ...s('nice france promenade anglais') },
+  { name: 'paris',       display_name: 'Paris',       region: 'ile-de-france', type: 'city', country_code: 'FR', ...u('1431274172761-fca41d930114') },
+  { name: 'nice',        display_name: 'Nice',        region: 'french-riviera', type: 'city', country_code: 'FR', ...u('1580660514655-1f88a38b9fc8') },
   { name: 'cannes',      display_name: 'Cannes',      region: 'french-riviera', type: 'city', country_code: 'FR', ...s('cannes france riviera') },
   { name: 'monaco',      display_name: 'Monaco',      type: 'city', country_code: 'FR', ...s('monaco monte carlo harbour') },
   { name: 'marseille',   display_name: 'Marseille',   region: 'provence', type: 'city', country_code: 'FR', ...s('marseille france harbour') },
@@ -307,7 +306,7 @@ export const PLACES = [
   // ────────────────────────────────────────
   // UNITED KINGDOM — GB
   // ────────────────────────────────────────
-  { name: 'united-kingdom', display_name: 'United Kingdom', aliases: ['uk','britain','great britain'], type: 'country', country_code: 'GB', gradient: '#012169,#C8102E,#ffffff', ...s('london big ben thames') },
+  { name: 'united-kingdom', display_name: 'United Kingdom', aliases: ['uk','britain','great britain'], type: 'country', country_code: 'GB', gradient: '#012169,#C8102E,#ffffff', ...u('1533929736458-ca588d08c8be') },
 
   // Nations/Regions
   { name: 'england',   display_name: 'England',  type: 'region', country_code: 'GB', ...s('england countryside rolling hills') },
@@ -320,8 +319,8 @@ export const PLACES = [
   { name: 'cornwall',  display_name: 'Cornwall',  type: 'region', country_code: 'GB', region: 'england', ...s('cornwall england sea coast') },
 
   // UK — cities
-  { name: 'london',     display_name: 'London',     region: 'england',  type: 'city', country_code: 'GB', ...s('london tower bridge thames') },
-  { name: 'edinburgh',  display_name: 'Edinburgh',  region: 'scotland', type: 'city', country_code: 'GB', ...s('edinburgh castle scotland') },
+  { name: 'london',     display_name: 'London',     region: 'england',  type: 'city', country_code: 'GB', ...u('1533929736458-ca588d08c8be') },
+  { name: 'edinburgh',  display_name: 'Edinburgh',  region: 'scotland', type: 'city', country_code: 'GB', ...u('1658328218882-aacff6c58bae') },
   { name: 'oxford',     display_name: 'Oxford',     region: 'england',  type: 'city', country_code: 'GB', ...s('oxford university england') },
   { name: 'cambridge',  display_name: 'Cambridge',  region: 'england',  type: 'city', country_code: 'GB', ...s('cambridge punting river england') },
   { name: 'bath',       display_name: 'Bath',       region: 'england',  type: 'city', country_code: 'GB', ...s('bath england roman baths') },
@@ -340,7 +339,7 @@ export const PLACES = [
   // ────────────────────────────────────────
   // SWITZERLAND — CH
   // ────────────────────────────────────────
-  { name: 'switzerland', display_name: 'Switzerland', type: 'country', country_code: 'CH', gradient: '#FF0000,#ffffff,#FF0000', ...s('switzerland alps lake') },
+  { name: 'switzerland', display_name: 'Switzerland', type: 'country', country_code: 'CH', gradient: '#FF0000,#ffffff,#FF0000', ...u('1735682419522-a23ad9585b4a') },
 
   // Cantons
   { name: 'zurich-canton',  display_name: 'Zurich',      aliases: ['zürich canton'], type: 'region', country_code: 'CH', ...s('zurich switzerland lake') },
@@ -355,7 +354,7 @@ export const PLACES = [
   { name: 'fribourg',       display_name: 'Fribourg',    aliases: ['freiburg'],      type: 'region', country_code: 'CH', ...s('fribourg switzerland medieval') },
 
   // Switzerland — cities
-  { name: 'zurich',       display_name: 'Zurich',      aliases: ['zürich'],      region: 'zurich-canton',  type: 'city', country_code: 'CH', ...s('zurich switzerland old town lake') },
+  { name: 'zurich',       display_name: 'Zurich',      aliases: ['zürich'],      region: 'zurich-canton',  type: 'city', country_code: 'CH', ...u('1735682419522-a23ad9585b4a') },
   { name: 'geneva',       display_name: 'Geneva',      aliases: ['genève'],      region: 'geneva-canton',  type: 'city', country_code: 'CH', ...s('geneva switzerland fountain lake') },
   { name: 'bern',         display_name: 'Bern',        type: 'city',             region: 'bern-canton',    country_code: 'CH', ...s('bern switzerland bear clock tower') },
   { name: 'basel',        display_name: 'Basel',       type: 'city',             country_code: 'CH',       ...s('basel switzerland rhine') },
@@ -372,7 +371,7 @@ export const PLACES = [
   // ────────────────────────────────────────
   // GERMANY — DE
   // ────────────────────────────────────────
-  { name: 'germany', display_name: 'Germany', type: 'country', country_code: 'DE', gradient: '#000000,#DD0000,#FFCE00', ...s('germany neuschwanstein castle') },
+  { name: 'germany', display_name: 'Germany', type: 'country', country_code: 'DE', gradient: '#000000,#DD0000,#FFCE00', ...u('1467269204594-9661b134dd2b') },
 
   // States
   { name: 'bavaria',             display_name: 'Bavaria',              aliases: ['bayern'],                    type: 'region', country_code: 'DE', ...s('bavaria germany alps neuschwanstein') },
@@ -387,7 +386,7 @@ export const PLACES = [
   { name: 'romantic-road',       display_name: 'Romantic Road',        aliases: ['romantische straße'],        type: 'region', country_code: 'DE', ...s('rothenburg tauber germany medieval') },
 
   // Germany — cities
-  { name: 'berlin',       display_name: 'Berlin',       region: 'berlin-state',  type: 'city', country_code: 'DE', ...s('berlin germany gate night') },
+  { name: 'berlin',       display_name: 'Berlin',       region: 'berlin-state',  type: 'city', country_code: 'DE', ...u('1563010502-e5ed4053cda5') },
   { name: 'munich',       display_name: 'Munich',       aliases: ['münchen'],    region: 'bavaria',        type: 'city', country_code: 'DE', ...s('munich marienplatz germany') },
   { name: 'hamburg',      display_name: 'Hamburg',      region: 'hamburg-state', type: 'city', country_code: 'DE', ...s('hamburg harbour germany') },
   { name: 'cologne',      display_name: 'Cologne',      aliases: ['köln'],       region: 'nrw',            type: 'city', country_code: 'DE', ...s('cologne cathedral germany rhine') },
@@ -407,6 +406,100 @@ export const PLACES = [
   { name: 'weimar',       display_name: 'Weimar',       region: 'thuringia',     type: 'city', country_code: 'DE', ...s('weimar germany goethe') },
   { name: 'trier',        display_name: 'Trier',        region: 'rhineland-palatinate', type: 'city', country_code: 'DE', ...s('trier germany porta nigra roman') },
   { name: 'regensburg',   display_name: 'Regensburg',   region: 'bavaria',       type: 'city', country_code: 'DE', ...s('regensburg germany danube medieval') },
+
+  // ────────────────────────────────────────
+  // NETHERLANDS — NL
+  // ────────────────────────────────────────
+  { name: 'netherlands', display_name: 'Netherlands', aliases: ['holland'], type: 'country', country_code: 'NL', gradient: '#ae1c28,#ffffff,#21468b', ...u('1717328182275-f72d2847c216') },
+  { name: 'amsterdam',   display_name: 'Amsterdam',   type: 'city', country_code: 'NL', ...u('1717328182275-f72d2847c216') },
+  { name: 'rotterdam',   display_name: 'Rotterdam',   type: 'city', country_code: 'NL', ...s('rotterdam netherlands modern city') },
+  { name: 'the-hague',   display_name: 'The Hague',   aliases: ['den haag','the hague'], type: 'city', country_code: 'NL', ...s('the hague netherlands parliament') },
+  { name: 'utrecht',     display_name: 'Utrecht',     type: 'city', country_code: 'NL', ...s('utrecht netherlands canal') },
+  { name: 'bruges',      display_name: 'Bruges',      aliases: ['brugge'], type: 'city', country_code: 'BE', ...s('bruges belgium canal medieval') },
+
+  // ────────────────────────────────────────
+  // AUSTRIA — AT
+  // ────────────────────────────────────────
+  { name: 'austria', display_name: 'Austria', type: 'country', country_code: 'AT', gradient: '#ed2939,#ffffff,#ed2939', ...u('1654669089849-c34fab88d492') },
+  { name: 'vienna',       display_name: 'Vienna',     aliases: ['wien'],    type: 'city', country_code: 'AT', ...u('1654669089849-c34fab88d492') },
+  { name: 'salzburg',     display_name: 'Salzburg',   type: 'city',         country_code: 'AT', ...s('salzburg austria fortress') },
+  { name: 'innsbruck',    display_name: 'Innsbruck',  type: 'city',         country_code: 'AT', ...s('innsbruck austria alps') },
+  { name: 'hallstatt',    display_name: 'Hallstatt',  type: 'city',         country_code: 'AT', ...s('hallstatt austria lake alps') },
+  { name: 'graz',         display_name: 'Graz',       type: 'city',         country_code: 'AT', ...s('graz austria old town') },
+
+  // ────────────────────────────────────────
+  // CZECH REPUBLIC — CZ
+  // ────────────────────────────────────────
+  { name: 'czech-republic', display_name: 'Czech Republic', aliases: ['czechia','česká republika'], type: 'country', country_code: 'CZ', gradient: '#d7141a,#ffffff,#11457e', ...u('1516680712-8f6f290cc33d') },
+  { name: 'prague',      display_name: 'Prague',      aliases: ['praha'],   type: 'city', country_code: 'CZ', ...u('1516680712-8f6f290cc33d') },
+  { name: 'brno',        display_name: 'Brno',        type: 'city',         country_code: 'CZ', ...s('brno czech republic city') },
+  { name: 'cesky-krumlov', display_name: 'Český Krumlov', aliases: ['cesky krumlov'], type: 'city', country_code: 'CZ', ...s('cesky krumlov castle river') },
+  { name: 'karlovy-vary', display_name: 'Karlovy Vary', aliases: ['carlsbad','karlovy vary'], type: 'city', country_code: 'CZ', ...s('karlovy vary spa town czech') },
+
+  // ────────────────────────────────────────
+  // CROATIA — HR
+  // ────────────────────────────────────────
+  { name: 'croatia', display_name: 'Croatia', aliases: ['hrvatska'], type: 'country', country_code: 'HR', gradient: '#171796,#ffffff,#ff0000', ...u('1655560585033-67e928edd1f7') },
+  { name: 'dubrovnik',   display_name: 'Dubrovnik',   type: 'city', country_code: 'HR', ...u('1655560585033-67e928edd1f7') },
+  { name: 'split',       display_name: 'Split',       type: 'city', country_code: 'HR', ...s('split croatia diocletian palace') },
+  { name: 'zagreb',      display_name: 'Zagreb',      type: 'city', country_code: 'HR', ...s('zagreb croatia cathedral') },
+  { name: 'hvar',        display_name: 'Hvar',        type: 'city', country_code: 'HR', ...s('hvar croatia island sea') },
+  { name: 'plitvice',    display_name: 'Plitvice Lakes', aliases: ['plitvice lakes'], type: 'city', country_code: 'HR', ...s('plitvice lakes croatia waterfalls') },
+  { name: 'rovinj',      display_name: 'Rovinj',      type: 'city', country_code: 'HR', ...s('rovinj istria croatia harbour') },
+
+  // ────────────────────────────────────────
+  // HUNGARY — HU
+  // ────────────────────────────────────────
+  { name: 'hungary', display_name: 'Hungary', aliases: ['magyarország'], type: 'country', country_code: 'HU', gradient: '#ce2939,#ffffff,#477050', ...u('1735093070249-015b4f05baff') },
+  { name: 'budapest',    display_name: 'Budapest',    type: 'city', country_code: 'HU', ...u('1735093070249-015b4f05baff') },
+  { name: 'eger',        display_name: 'Eger',        type: 'city', country_code: 'HU', ...s('eger hungary castle wine') },
+  { name: 'pecs',        display_name: 'Pécs',        aliases: ['pecs'], type: 'city', country_code: 'HU', ...s('pecs hungary cathedral') },
+
+  // ────────────────────────────────────────
+  // DENMARK — DK
+  // ────────────────────────────────────────
+  { name: 'denmark', display_name: 'Denmark', type: 'country', country_code: 'DK', gradient: '#c60c30,#ffffff,#c60c30', ...u('1673018335130-f5f2f357624d') },
+  { name: 'copenhagen',  display_name: 'Copenhagen',  aliases: ['københavn'], type: 'city', country_code: 'DK', ...u('1673018335130-f5f2f357624d') },
+
+  // ────────────────────────────────────────
+  // TURKEY — TR
+  // ────────────────────────────────────────
+  { name: 'turkey', display_name: 'Turkey', aliases: ['türkiye'], type: 'country', country_code: 'TR', gradient: '#e30a17,#ffffff,#e30a17', ...u('1670738390805-7b748b2d580f') },
+  { name: 'istanbul',    display_name: 'Istanbul',    aliases: ['constantinople'], type: 'city', country_code: 'TR', ...u('1670738390805-7b748b2d580f') },
+  { name: 'cappadocia',  display_name: 'Cappadocia',  aliases: ['kapadokya'], type: 'city', country_code: 'TR', ...s('cappadocia turkey hot air balloon') },
+  { name: 'antalya',     display_name: 'Antalya',     type: 'city', country_code: 'TR', ...s('antalya turkey coast') },
+  { name: 'bodrum',      display_name: 'Bodrum',      type: 'city', country_code: 'TR', ...s('bodrum turkey harbour') },
+
+  // ────────────────────────────────────────
+  // BELGIUM — BE
+  // ────────────────────────────────────────
+  { name: 'belgium', display_name: 'Belgium', type: 'country', country_code: 'BE', gradient: '#000000,#fae042,#ef3340', ...s('bruges belgium canal medieval') },
+  { name: 'brussels',    display_name: 'Brussels',    aliases: ['bruxelles','brussel'], type: 'city', country_code: 'BE', ...s('brussels belgium grand place') },
+  { name: 'ghent',       display_name: 'Ghent',       aliases: ['gent'], type: 'city', country_code: 'BE', ...s('ghent belgium canal') },
+
+  // ────────────────────────────────────────
+  // IRELAND — IE
+  // ────────────────────────────────────────
+  { name: 'ireland', display_name: 'Ireland', type: 'country', country_code: 'IE', gradient: '#169b62,#ffffff,#ff883e', ...s('ireland cliffs moher coast') },
+  { name: 'dublin',      display_name: 'Dublin',      type: 'city', country_code: 'IE', ...s('dublin ireland temple bar') },
+  { name: 'galway',      display_name: 'Galway',      type: 'city', country_code: 'IE', ...s('galway ireland coast') },
+  { name: 'cork',        display_name: 'Cork',        type: 'city', country_code: 'IE', ...s('cork ireland city') },
+
+  // ────────────────────────────────────────
+  // SCANDINAVIA (Sweden, Norway, Finland)
+  // ────────────────────────────────────────
+  { name: 'sweden', display_name: 'Sweden', type: 'country', country_code: 'SE', gradient: '#006aa7,#fecc02,#006aa7', ...s('stockholm sweden old town') },
+  { name: 'stockholm',   display_name: 'Stockholm',   type: 'city', country_code: 'SE', ...s('stockholm sweden gamla stan') },
+  { name: 'gothenburg',  display_name: 'Gothenburg',  aliases: ['göteborg'], type: 'city', country_code: 'SE', ...s('gothenburg sweden harbour') },
+
+  { name: 'norway', display_name: 'Norway', type: 'country', country_code: 'NO', gradient: '#ef2b2d,#ffffff,#002868', ...s('norway fjords landscape') },
+  { name: 'oslo',        display_name: 'Oslo',        type: 'city', country_code: 'NO', ...s('oslo norway city hall waterfront') },
+  { name: 'bergen',      display_name: 'Bergen',      type: 'city', country_code: 'NO', ...s('bergen norway bryggen wharf') },
+  { name: 'flam',        display_name: 'Flåm',        aliases: ['flam','flåm'], type: 'city', country_code: 'NO', ...s('flam norway fjord scenic') },
+
+  { name: 'finland', display_name: 'Finland', type: 'country', country_code: 'FI', gradient: '#003580,#ffffff,#003580', ...s('finland lapland aurora') },
+  { name: 'helsinki',    display_name: 'Helsinki',    type: 'city', country_code: 'FI', ...s('helsinki finland cathedral harbour') },
+  { name: 'rovaniemi',   display_name: 'Rovaniemi',   type: 'city', country_code: 'FI', ...s('rovaniemi lapland finland santa') },
 ]
 
 // Build lookup maps

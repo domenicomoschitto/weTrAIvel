@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
-import { useApp } from '../App'
 
-export default function CreateTripModal({ onClose, onCreated, initialName = '' }) {
-  const { user } = useApp()
-  const [name, setName] = useState(initialName)
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+export default function EditTripModal({ trip, onClose, onSaved }) {
+  const [name, setName] = useState(trip.name || '')
+  const [startDate, setStartDate] = useState(trip.start_date || '')
+  const [endDate, setEndDate] = useState(trip.end_date || '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
 
@@ -15,14 +13,13 @@ export default function CreateTripModal({ onClose, onCreated, initialName = '' }
     if (!name.trim()) return
     setSaving(true)
     setError(null)
-    const { data, error } = await supabase.from('trips').insert({
-      user_id: user.id,
+    const { data, error } = await supabase.from('trips').update({
       name: name.trim(),
       start_date: startDate || null,
       end_date: endDate || null,
-    }).select().single()
+    }).eq('id', trip.id).select().single()
     if (error) { setError(error.message); setSaving(false); return }
-    onCreated(data)
+    onSaved(data)
   }
 
   return (
@@ -38,19 +35,17 @@ export default function CreateTripModal({ onClose, onCreated, initialName = '' }
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
           <div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-              New Trip
+              Edit Trip
             </div>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
-              Where are you heading?
+              Update your trip details
             </div>
           </div>
           <button className="btn-icon" onClick={onClose} style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>✕</button>
         </div>
 
         <form onSubmit={handleSubmit}>
-          {error && (
-            <div className="auth-error" style={{ marginBottom: 16 }}>{error}</div>
-          )}
+          {error && <div className="auth-error" style={{ marginBottom: 16 }}>{error}</div>}
 
           {/* Trip name */}
           <div style={{ marginBottom: 16 }}>
@@ -59,7 +54,6 @@ export default function CreateTripModal({ onClose, onCreated, initialName = '' }
             </label>
             <input
               className="input"
-              placeholder="e.g. Italy 2026"
               value={name}
               onChange={e => setName(e.target.value)}
               required
@@ -86,14 +80,13 @@ export default function CreateTripModal({ onClose, onCreated, initialName = '' }
             </div>
           </div>
 
-          {/* Actions */}
           <button
             type="submit"
             className="btn btn-primary"
             disabled={saving || !name.trim()}
             style={{ width: '100%', justifyContent: 'center', padding: '13px', fontSize: '0.9rem' }}
           >
-            {saving ? <div className="spinner" /> : '✈ Create Trip'}
+            {saving ? <div className="spinner" /> : '✓ Save Changes'}
           </button>
         </form>
       </div>

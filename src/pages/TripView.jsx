@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { callClaude, buildOptimizerContext } from '../lib/claude'
 import { getPlaceImage } from '../data/places'
 import CreateStopModal from '../components/CreateStopModal'
+import EditTripModal from '../components/EditTripModal'
 
 function formatDate(d) {
   if (!d) return null
@@ -33,6 +34,7 @@ export default function TripView() {
   const [stops, setStops] = useState([])
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
+  const [showEdit, setShowEdit] = useState(false)
   const [optimizing, setOptimizing] = useState(false)
   const [optimizerResult, setOptimizerResult] = useState(null)
   const [deletingTrip, setDeletingTrip] = useState(false)
@@ -128,15 +130,25 @@ export default function TripView() {
             }}>
               {trip.name}
             </div>
-            <button
-              className="btn-icon"
-              title="Delete trip"
-              onClick={deleteTrip}
-              disabled={deletingTrip}
-              style={{ color: 'rgba(255,255,255,0.35)', fontSize: '1rem', flexShrink: 0, marginTop: 4 }}
-            >
-              🗑️
-            </button>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button
+                className="btn-icon"
+                title="Edit trip"
+                onClick={() => setShowEdit(true)}
+                style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem', flexShrink: 0, marginTop: 4 }}
+              >
+                ✎
+              </button>
+              <button
+                className="btn-icon"
+                title="Delete trip"
+                onClick={deleteTrip}
+                disabled={deletingTrip}
+                style={{ color: 'rgba(255,255,255,0.35)', fontSize: '1rem', flexShrink: 0, marginTop: 4 }}
+              >
+                🗑️
+              </button>
+            </div>
           </div>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
             {(trip.start_date || trip.end_date) && (
@@ -287,6 +299,13 @@ export default function TripView() {
           orderIndex={stops.length}
           onClose={() => setShowCreate(false)}
           onCreated={onStopCreated}
+        />
+      )}
+      {showEdit && trip && (
+        <EditTripModal
+          trip={trip}
+          onClose={() => setShowEdit(false)}
+          onSaved={(updated) => { setTrip(updated); setShowEdit(false) }}
         />
       )}
     </>

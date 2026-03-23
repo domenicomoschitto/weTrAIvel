@@ -3,9 +3,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { supabase, isConfigured } from './lib/supabase'
 import Auth from './components/Auth'
 import Layout from './components/Layout'
+import Discover from './pages/Discover'
 import Home from './pages/Home'
 import TripView from './pages/TripView'
 import StopView from './pages/StopView'
+import Profile from './pages/Profile'
 
 export const AppContext = createContext(null)
 export function useApp() { return useContext(AppContext) }
@@ -30,7 +32,7 @@ export default function App() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo">🧳</div>
-        <div className="auth-title">weTrAivel</div>
+        <div className="auth-title">Volare</div>
         <div className="auth-sub" style={{ marginBottom: 20 }}>Setup required</div>
         <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', padding: '16px', fontSize: '0.85rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
           <p>Create a <code style={{ color: 'var(--primary)' }}>.env</code> file in <code style={{ color: 'var(--primary)' }}>travel-vault/</code> with:</p>
@@ -57,7 +59,9 @@ VITE_SUPABASE_ANON_KEY=your-anon-key`}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Discover />} />
+            <Route path="trips" element={<Home />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="trip/:tripId" element={<TripView />} />
             <Route path="trip/:tripId/stop/:stopId" element={<StopView />} />
           </Route>

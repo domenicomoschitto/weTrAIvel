@@ -110,25 +110,36 @@ export default function Auth() {
         boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
       }}>
 
-        {/* Logo */}
-        <div style={{ textAlign: 'center', fontSize: '2rem', marginBottom: 12 }}>🧳</div>
-
-        {/* Title */}
-        <div style={{
-          textAlign: 'center',
-          fontFamily: 'Syne, system-ui, sans-serif',
-          fontSize: '2rem',
-          fontWeight: 800,
-          color: '#fff',
-          letterSpacing: '-0.03em',
-          marginBottom: 6,
-        }}>
-          weTr<span style={{ color: '#60a5fa' }}>AI</span>vel
+        {/* Logo banner */}
+        <div style={{ borderRadius: 14, overflow: 'hidden', marginBottom: 0 }}>
+          <img
+            src="/volare_logo.png"
+            alt=""
+            aria-hidden
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
         </div>
 
-        {/* Subtitle */}
-        <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.55)', fontSize: '0.85rem', marginBottom: 28 }}>
-          {mode === 'login' ? 'Welcome back. Sign in to your trips.' : 'Create an account to get started.'}
+        {/* Title + subtitle — title half-overlays the image bottom */}
+        <div style={{ textAlign: 'center', marginTop: '-1.1rem', marginBottom: 20 }}>
+          <div style={{
+            fontFamily: 'Syne, system-ui, sans-serif',
+            fontSize: '2.8rem',
+            fontWeight: 800,
+            color: '#fff',
+            letterSpacing: '-0.03em',
+            marginBottom: 4,
+            textShadow: '0 0 0 2px rgba(0,0,0,0.8), 0 2px 16px rgba(0,0,0,0.9), -1px -1px 0 rgba(0,0,0,0.6), 1px -1px 0 rgba(0,0,0,0.6), -1px 1px 0 rgba(0,0,0,0.6), 1px 1px 0 rgba(0,0,0,0.6)',
+          }}>
+            Volare
+          </div>
+          <div style={{
+            fontSize: '0.82rem',
+            color: 'rgba(255,255,255,0.6)',
+            letterSpacing: '0.02em',
+          }}>
+            {mode === 'login' ? 'Your AI Powered Travel Assistant' : 'Create an account to get started.'}
+          </div>
         </div>
 
         {/* Error */}

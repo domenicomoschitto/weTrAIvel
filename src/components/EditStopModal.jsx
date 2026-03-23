@@ -2,14 +2,13 @@ import { useState, useMemo } from 'react'
 import { supabase } from '../lib/supabase'
 import { getPlaceImage, getFlag } from '../data/places'
 
-export default function CreateStopModal({ tripId, orderIndex, onClose, onCreated }) {
-  const [name, setName] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+export default function EditStopModal({ stop, onClose, onSaved }) {
+  const [name, setName] = useState(stop.name || '')
+  const [startDate, setStartDate] = useState(stop.start_date || '')
+  const [endDate, setEndDate] = useState(stop.end_date || '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
 
-  // Live image preview as user types (only if the place has a real image_url)
   const place = useMemo(() => {
     const p = getPlaceImage(name.trim())
     return p?.image_url ? p : null
@@ -20,23 +19,20 @@ export default function CreateStopModal({ tripId, orderIndex, onClose, onCreated
     if (!name.trim()) return
     setSaving(true)
     setError(null)
-    const { error } = await supabase.from('stops').insert({
-      trip_id: tripId,
+    const { data, error } = await supabase.from('stops').update({
       name: name.trim(),
-      location: place ? `${place.display_name || name.trim()}` : name.trim(),
       start_date: startDate || null,
       end_date: endDate || null,
-      order_index: orderIndex,
-    })
+    }).eq('id', stop.id).select().single()
     if (error) { setError(error.message); setSaving(false); return }
-    onCreated()
+    onSaved(data)
   }
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()} style={{ padding: 0, overflow: 'hidden', paddingBottom: 32 }}>
 
-        {/* Hero image / header area */}
+        {/* Hero image */}
         <div style={{
           position: 'relative',
           height: place ? 120 : 0,
@@ -46,28 +42,11 @@ export default function CreateStopModal({ tripId, orderIndex, onClose, onCreated
         }}>
           {place && (
             <>
-              <img
-                src={place.image_url}
-                alt={name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-              <div style={{
-                position: 'absolute', inset: 0,
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%)',
-              }} />
-              <div style={{
-                position: 'absolute', bottom: 12, left: 16, right: 16,
-                display: 'flex', alignItems: 'center', gap: 8,
-              }}>
+              <img src={place.image_url} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%)' }} />
+              <div style={{ position: 'absolute', bottom: 12, left: 16, right: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ fontSize: '1.4rem' }}>{getFlag(place.country_code)}</span>
-                <span style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1rem',
-                  fontWeight: 700,
-                  color: '#fff',
-                  letterSpacing: '-0.01em',
-                  textShadow: '0 1px 4px rgba(0,0,0,0.4)',
-                }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: '#fff', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
                   {place.display_name || name.trim()}
                 </span>
               </div>
@@ -76,39 +55,33 @@ export default function CreateStopModal({ tripId, orderIndex, onClose, onCreated
         </div>
 
         <div style={{ padding: '20px 20px 0' }}>
-          {/* Drag handle */}
           {!place && (
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20, marginTop: -4 }}>
               <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--border)' }} />
             </div>
           )}
 
-          {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, marginTop: place ? 16 : 0 }}>
             <div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                New Stop
+                Edit Stop
               </div>
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
-                Where are you stopping next?
+                Update stop details
               </div>
             </div>
             <button className="btn-icon" onClick={onClose} style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>✕</button>
           </div>
 
           <form onSubmit={handleSubmit}>
-            {error && (
-              <div className="auth-error" style={{ marginBottom: 16 }}>{error}</div>
-            )}
+            {error && <div className="auth-error" style={{ marginBottom: 16 }}>{error}</div>}
 
-            {/* City name */}
             <div style={{ marginBottom: 16 }}>
               <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: 'var(--font-display)', marginBottom: 8 }}>
                 City / Destination
               </label>
               <input
                 className="input"
-                placeholder="e.g. Rome"
                 value={name}
                 onChange={e => setName(e.target.value)}
                 required
@@ -117,7 +90,6 @@ export default function CreateStopModal({ tripId, orderIndex, onClose, onCreated
               />
             </div>
 
-            {/* Dates */}
             <div style={{ marginBottom: 24 }}>
               <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: 'var(--font-display)', marginBottom: 8 }}>
                 Dates
@@ -135,14 +107,13 @@ export default function CreateStopModal({ tripId, orderIndex, onClose, onCreated
               </div>
             </div>
 
-            {/* Actions */}
             <button
               type="submit"
               className="btn btn-primary"
               disabled={saving || !name.trim()}
               style={{ width: '100%', justifyContent: 'center', padding: '13px', fontSize: '0.9rem' }}
             >
-              {saving ? <div className="spinner" /> : '📍 Add Stop'}
+              {saving ? <div className="spinner" /> : '✓ Save Changes'}
             </button>
           </form>
         </div>

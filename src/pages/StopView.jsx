@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { getPlaceImage } from '../data/places'
 import AddItemModal from '../components/AddItemModal'
+import EditStopModal from '../components/EditStopModal'
 
 const CATEGORIES = ['all', 'transport', 'accommodation', 'documents', 'links', 'notes', 'people']
 
@@ -90,6 +91,7 @@ export default function StopView() {
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('all')
   const [showAdd, setShowAdd] = useState(false)
+  const [showEdit, setShowEdit] = useState(false)
 
   useEffect(() => { loadData() }, [stopId])
 
@@ -187,14 +189,24 @@ export default function StopView() {
               )}
             </div>
           </div>
-          <button
-            className="btn-icon"
-            title="Delete stop"
-            onClick={deleteStop}
-            style={{ color: 'rgba(255,255,255,0.35)', fontSize: '1rem', flexShrink: 0 }}
-          >
-            🗑️
-          </button>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button
+              className="btn-icon"
+              title="Edit stop"
+              onClick={() => setShowEdit(true)}
+              style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem', flexShrink: 0 }}
+            >
+              ✎
+            </button>
+            <button
+              className="btn-icon"
+              title="Delete stop"
+              onClick={deleteStop}
+              style={{ color: 'rgba(255,255,255,0.35)', fontSize: '1rem', flexShrink: 0 }}
+            >
+              🗑️
+            </button>
+          </div>
         </div>
       </div>
 
@@ -251,6 +263,13 @@ export default function StopView() {
           stopId={stopId}
           onClose={() => setShowAdd(false)}
           onCreated={() => { setShowAdd(false); loadData() }}
+        />
+      )}
+      {showEdit && stop && (
+        <EditStopModal
+          stop={stop}
+          onClose={() => setShowEdit(false)}
+          onSaved={(updated) => { setStop({ ...stop, ...updated }); setShowEdit(false) }}
         />
       )}
     </>

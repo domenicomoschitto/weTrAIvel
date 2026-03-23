@@ -102,7 +102,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="page" style={{ paddingTop: 28 }}>
+      <div className="page page-tabbed" style={{ paddingTop: 28 }}>
 
         {/* Greeting */}
         <div style={{ marginBottom: 28 }}>

@@ -1,43 +1,50 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
 import AIChat from './AIChat'
+
+const TABS = [
+  { path: '/', label: 'Discover', icon: '🧭' },
+  { path: '/trips', label: 'My Trips', icon: '🗺️' },
+  { path: '/profile', label: 'Profile', icon: '👤' },
+]
+
+const TOP_LEVEL = ['/', '/trips', '/profile']
 
 export default function Layout() {
   const navigate = useNavigate()
   const location = useLocation()
-  const isHome = location.pathname === '/'
-
-  async function signOut() {
-    await supabase.auth.signOut()
-  }
+  const isTopLevel = TOP_LEVEL.includes(location.pathname)
 
   return (
     <>
+      {/* Top navbar */}
       <nav className="navbar">
-        {isHome ? (
-          <span className="navbar-logo">🧳 weTrAivel</span>
+        {isTopLevel ? (
+          <span className="navbar-logo">✈ Volare</span>
         ) : (
           <button className="btn-icon" onClick={() => navigate(-1)} title="Back" style={{ fontSize: '1.2rem' }}>
             ←
           </button>
         )}
-
-        <span className="navbar-title" style={isHome ? { textAlign: 'right', flex: 0 } : {}}>
-          {isHome ? '' : ''}
-        </span>
-
-        <button
-          className="btn-icon"
-          onClick={signOut}
-          title="Sign out"
-          style={{ fontSize: '1rem' }}
-        >
-          ⏻
-        </button>
+        <span className="navbar-title" />
+        <div style={{ width: 32 }} />
       </nav>
 
       <Outlet />
       <AIChat />
+
+      {/* Bottom tab bar */}
+      <nav className="bottom-tabs">
+        {TABS.map(tab => (
+          <button
+            key={tab.path}
+            className={`bottom-tab${location.pathname === tab.path ? ' active' : ''}`}
+            onClick={() => navigate(tab.path)}
+          >
+            <span className="tab-icon">{tab.icon}</span>
+            {tab.label}
+          </button>
+        ))}
+      </nav>
     </>
   )
 }
