@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Travel Vault — Theme Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700&family=Cabinet+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111; font-family: 'Inter', sans-serif; padding: 40px 24px 80px; }
+
+  .header { text-align: center; margin-bottom: 48px; }
+  .header h1 { color: #fff; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
+  .header p { color: #666; font-size: 0.9rem; margin-top: 6px; }
+
+  .grid { display: flex; flex-direction: column; gap: 32px; max-width: 860px; margin: 0 auto; }
+
+  .theme-block {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .theme-label {
+    background: #1a1a1a;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .theme-label .name { color: #fff; font-size: 0.95rem; font-weight: 600; }
+  .theme-label .tagline { color: #666; font-size: 0.8rem; }
+  .theme-swatches { display: flex; gap: 6px; }
+  .swatch { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.15); }
+
+  .theme-preview {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* shared card structure */
+  .preview-card {
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card-header { display: flex; align-items: center; gap: 12px; }
+  .card-cover {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 0.95rem; font-weight: 600; }
+  .card-sub { font-size: 0.75rem; margin-top: 2px; }
+  .stops-row { display: flex; flex-direction: column; gap: 6px; }
+  .stop-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+  .stop-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .btn-preview {
+    padding: 9px 16px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 0.01em;
+  }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag-preview {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+
+  /* ── OPTION 1: ATLAS ── */
+  .atlas-bg { background: #faf8f3; }
+  .atlas-card { background: #fff; border: 1px solid #e8e2d6; box-shadow: 0 2px 12px rgba(0,0,0,0.06); font-family: 'Inter', sans-serif; }
+  .atlas-title { color: #1a2e44; font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .atlas-sub { color: #8a7d6b; }
+  .atlas-cover { background: linear-gradient(135deg, #fdf3e0, #f5e6c8); border: 1px solid #e8d9b8; }
+  .atlas-stop { color: #5a4e3f; }
+  .atlas-dot { background: #c9973a; }
+  .atlas-btn { background: #1a2e44; color: #fff; font-family: 'Inter', sans-serif; }
+  .atlas-tag-1 { background: rgba(201,151,58,0.12); color: #b8852a; }
+  .atlas-tag-2 { background: rgba(26,46,68,0.08); color: #1a2e44; }
+  .atlas-tag-3 { background: rgba(90,78,63,0.08); color: #5a4e3f; }
+  .atlas-section { font-size: 0.7rem; font-weight: 600; color: #8a7d6b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+
+  /* ── OPTION 2: DUSK ── */
+  .dusk-bg { background: #f7f4ff; }
+  .dusk-card { background: #fff; border: 1px solid #ede8ff; box-shadow: 0 2px 16px rgba(120,80,200,0.08); font-family: 'DM Sans', sans-serif; }
+  .dusk-title { color: #2d1454; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; }
+  .dusk-sub { color: #9b8ab5; }
+  .dusk-cover { background: linear-gradient(135deg, #f0e8ff, #ffe0ec); border: 1px solid #e8d8ff; }
+  .dusk-stop { color: #4a3567; }
+  .dusk-dot { background: #ff6b6b; }
+  .dusk-btn { background: linear-gradient(135deg, #7c3aed, #ec4899); color: #fff; font-family: 'DM Sans', sans-serif; }
+  .dusk-tag-1 { background: rgba(124,58,237,0.1); color: #7c3aed; }
+  .dusk-tag-2 { background: rgba(236,72,153,0.1); color: #db2777; }
+  .dusk-tag-3 { background: rgba(255,107,107,0.1); color: #ef4444; }
+  .dusk-section { font-size: 0.7rem; font-weight: 600; color: #9b8ab5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+
+  /* ── OPTION 3: SHORE ── */
+  .shore-bg { background: #f0f9ff; }
+  .shore-card { background: #fff; border: 1px solid #bae6fd; box-shadow: 0 2px 16px rgba(3,105,161,0.08); font-family: 'Inter', sans-serif; }
+  .shore-title { color: #0c4a6e; font-size: 1rem; font-weight: 600; }
+  .shore-sub { color: #64a0be; }
+  .shore-cover { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border: 1px solid #80deea; }
+  .shore-stop { color: #164e63; }
+  .shore-dot { background: #0d9488; }
+  .shore-btn { background: #0369a1; color: #fff; font-family: 'Inter', sans-serif; }
+  .shore-tag-1 { background: rgba(3,105,161,0.1); color: #0369a1; }
+  .shore-tag-2 { background: rgba(13,148,136,0.1); color: #0d9488; }
+  .shore-tag-3 { background: rgba(6,182,212,0.1); color: #0891b2; }
+  .shore-section { font-size: 0.7rem; font-weight: 600; color: #64a0be; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+
+  /* ── OPTION 4: TERRA ── */
+  .terra-bg { background: #faf7f2; }
+  .terra-card { background: #fff; border: 1px solid #e8ddd0; box-shadow: 0 2px 12px rgba(80,50,20,0.07); font-family: 'Inter', sans-serif; }
+  .terra-title { color: #1c2b1a; font-size: 1rem; font-weight: 600; }
+  .terra-sub { color: #8a7060; }
+  .terra-cover { background: linear-gradient(135deg, #f5ebe0, #e8d5c0); border: 1px solid #d4bca8; }
+  .terra-stop { color: #3d2b1e; }
+  .terra-dot { background: #c4572a; }
+  .terra-btn { background: #2d5016; color: #fff; font-family: 'Inter', sans-serif; }
+  .terra-tag-1 { background: rgba(196,87,42,0.1); color: #c4572a; }
+  .terra-tag-2 { background: rgba(45,80,22,0.1); color: #2d5016; }
+  .terra-tag-3 { background: rgba(138,112,96,0.12); color: #6b4c3a; }
+  .terra-section { font-size: 0.7rem; font-weight: 600; color: #8a7060; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+
+  /* ── OPTION 5: VOID+ ── */
+  .void-bg { background: #f2f2f5; }
+  .void-card { background: #fff; border: 1px solid #e2e2ea; box-shadow: 0 2px 16px rgba(0,0,0,0.06); font-family: 'Syne', sans-serif; }
+  .void-title { color: #0a0a0f; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+  .void-sub { color: #888898; font-family: 'Inter', sans-serif; font-size: 0.75rem; }
+  .void-cover { background: linear-gradient(135deg, #e8e8ff, #d8d8f8); border: 1px solid #c8c8ee; }
+  .void-stop { color: #222230; font-family: 'Inter', sans-serif; }
+  .void-dot { background: #2563eb; }
+  .void-btn { background: #0a0a0f; color: #fff; font-family: 'Syne', sans-serif; letter-spacing: 0.02em; }
+  .void-tag-1 { background: rgba(37,99,235,0.1); color: #2563eb; }
+  .void-tag-2 { background: rgba(10,10,15,0.06); color: #0a0a0f; }
+  .void-tag-3 { background: rgba(139,92,246,0.1); color: #7c3aed; }
+  .void-section { font-size: 0.7rem; font-weight: 700; color: #aaaabc; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; font-family: 'Syne', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Travel Vault — Theme Options</h1>
+  <p>Mixed light/dark · Visual · Card-heavy</p>
+</div>
+
+<div class="grid">
+
+  <!-- ── 1. ATLAS ── -->
+  <div class="theme-block">
+    <div class="theme-label">
+      <div>
+        <div class="name">① Atlas</div>
+        <div class="tagline">Warm editorial — Condé Nast meets travel journal</div>
+      </div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#faf8f3"></div>
+        <div class="swatch" style="background:#1a2e44"></div>
+        <div class="swatch" style="background:#c9973a"></div>
+        <div class="swatch" style="background:#5a4e3f"></div>
+      </div>
+    </div>
+    <div class="theme-preview atlas-bg">
+      <div class="preview-card atlas-card">
+        <div class="atlas-section">Current Trip</div>
+        <div class="card-header">
+          <div class="card-cover atlas-cover">🇮🇹</div>
+          <div>
+            <div class="card-title atlas-title">Italy 2026</div>
+            <div class="card-sub atlas-sub">Jun 3 – Jun 14 · 3 stops</div>
+          </div>
+        </div>
+        <div class="stops-row">
+          <div class="stop-item"><div class="stop-dot atlas-dot"></div><span class="atlas-stop">Rome · Jun 3–6</span></div>
+          <div class="stop-item"><div class="stop-dot atlas-dot"></div><span class="atlas-stop">Florence · Jun 6–9</span></div>
+          <div class="stop-item"><div class="stop-dot atlas-dot"></div><span class="atlas-stop">Venice · Jun 9–14</span></div>
+        </div>
+        <button class="btn-preview atlas-btn">Open Trip</button>
+      </div>
+      <div class="preview-card atlas-card">
+        <div class="atlas-section">Vault — Rome</div>
+        <div class="tag-row">
+          <span class="tag-preview atlas-tag-1">✈ Transport</span>
+          <span class="tag-preview atlas-tag-2">🏨 Hotel</span>
+          <span class="tag-preview atlas-tag-3">📄 Docs</span>
+        </div>
+        <div class="stops-row" style="gap:10px">
+          <div class="atlas-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title atlas-title" style="font-size:0.82rem;font-family:inherit">Flight FR1234</div>
+            <div class="card-sub atlas-sub" style="margin-top:3px">Dep. 08:15 · Seat 14A · Terminal 2</div>
+          </div>
+          <div class="atlas-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title atlas-title" style="font-size:0.82rem;font-family:inherit">Hotel Quirinale</div>
+            <div class="card-sub atlas-sub" style="margin-top:3px">Ref: QR8821 · Check-in 14:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── 2. DUSK ── -->
+  <div class="theme-block">
+    <div class="theme-label">
+      <div>
+        <div class="name">② Dusk</div>
+        <div class="tagline">Soft & bold — editorial purple with coral pop</div>
+      </div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#f7f4ff"></div>
+        <div class="swatch" style="background:#7c3aed"></div>
+        <div class="swatch" style="background:#ff6b6b"></div>
+        <div class="swatch" style="background:#2d1454"></div>
+      </div>
+    </div>
+    <div class="theme-preview dusk-bg">
+      <div class="preview-card dusk-card">
+        <div class="dusk-section">Current Trip</div>
+        <div class="card-header">
+          <div class="card-cover dusk-cover">🇮🇹</div>
+          <div>
+            <div class="card-title dusk-title">Italy 2026</div>
+            <div class="card-sub dusk-sub">Jun 3 – Jun 14 · 3 stops</div>
+          </div>
+        </div>
+        <div class="stops-row">
+          <div class="stop-item"><div class="stop-dot dusk-dot"></div><span class="dusk-stop">Rome · Jun 3–6</span></div>
+          <div class="stop-item"><div class="stop-dot dusk-dot"></div><span class="dusk-stop">Florence · Jun 6–9</span></div>
+          <div class="stop-item"><div class="stop-dot dusk-dot"></div><span class="dusk-stop">Venice · Jun 9–14</span></div>
+        </div>
+        <button class="btn-preview dusk-btn">Open Trip</button>
+      </div>
+      <div class="preview-card dusk-card">
+        <div class="dusk-section">Vault — Rome</div>
+        <div class="tag-row">
+          <span class="tag-preview dusk-tag-1">✈ Transport</span>
+          <span class="tag-preview dusk-tag-2">🏨 Hotel</span>
+          <span class="tag-preview dusk-tag-3">📄 Docs</span>
+        </div>
+        <div class="stops-row" style="gap:10px">
+          <div class="dusk-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title dusk-title" style="font-size:0.82rem">Flight FR1234</div>
+            <div class="card-sub dusk-sub" style="margin-top:3px">Dep. 08:15 · Seat 14A · Terminal 2</div>
+          </div>
+          <div class="dusk-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title dusk-title" style="font-size:0.82rem">Hotel Quirinale</div>
+            <div class="card-sub dusk-sub" style="margin-top:3px">Ref: QR8821 · Check-in 14:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── 3. SHORE ── -->
+  <div class="theme-block">
+    <div class="theme-label">
+      <div>
+        <div class="name">③ Shore</div>
+        <div class="tagline">Clean & confident — Airbnb meets ocean blue</div>
+      </div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#f0f9ff"></div>
+        <div class="swatch" style="background:#0369a1"></div>
+        <div class="swatch" style="background:#0d9488"></div>
+        <div class="swatch" style="background:#0c4a6e"></div>
+      </div>
+    </div>
+    <div class="theme-preview shore-bg">
+      <div class="preview-card shore-card">
+        <div class="shore-section">Current Trip</div>
+        <div class="card-header">
+          <div class="card-cover shore-cover">🇮🇹</div>
+          <div>
+            <div class="card-title shore-title">Italy 2026</div>
+            <div class="card-sub shore-sub">Jun 3 – Jun 14 · 3 stops</div>
+          </div>
+        </div>
+        <div class="stops-row">
+          <div class="stop-item"><div class="stop-dot shore-dot"></div><span class="shore-stop">Rome · Jun 3–6</span></div>
+          <div class="stop-item"><div class="stop-dot shore-dot"></div><span class="shore-stop">Florence · Jun 6–9</span></div>
+          <div class="stop-item"><div class="stop-dot shore-dot"></div><span class="shore-stop">Venice · Jun 9–14</span></div>
+        </div>
+        <button class="btn-preview shore-btn">Open Trip</button>
+      </div>
+      <div class="preview-card shore-card">
+        <div class="shore-section">Vault — Rome</div>
+        <div class="tag-row">
+          <span class="tag-preview shore-tag-1">✈ Transport</span>
+          <span class="tag-preview shore-tag-2">🏨 Hotel</span>
+          <span class="tag-preview shore-tag-3">📄 Docs</span>
+        </div>
+        <div class="stops-row" style="gap:10px">
+          <div class="shore-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title shore-title" style="font-size:0.82rem">Flight FR1234</div>
+            <div class="card-sub shore-sub" style="margin-top:3px">Dep. 08:15 · Seat 14A · Terminal 2</div>
+          </div>
+          <div class="shore-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title shore-title" style="font-size:0.82rem">Hotel Quirinale</div>
+            <div class="card-sub shore-sub" style="margin-top:3px">Ref: QR8821 · Check-in 14:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── 4. TERRA ── -->
+  <div class="theme-block">
+    <div class="theme-label">
+      <div>
+        <div class="name">④ Terra</div>
+        <div class="tagline">Earthy & warm — adventure travel, National Geographic</div>
+      </div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#faf7f2"></div>
+        <div class="swatch" style="background:#2d5016"></div>
+        <div class="swatch" style="background:#c4572a"></div>
+        <div class="swatch" style="background:#3d2b1e"></div>
+      </div>
+    </div>
+    <div class="theme-preview terra-bg">
+      <div class="preview-card terra-card">
+        <div class="terra-section">Current Trip</div>
+        <div class="card-header">
+          <div class="card-cover terra-cover">🇮🇹</div>
+          <div>
+            <div class="card-title terra-title">Italy 2026</div>
+            <div class="card-sub terra-sub">Jun 3 – Jun 14 · 3 stops</div>
+          </div>
+        </div>
+        <div class="stops-row">
+          <div class="stop-item"><div class="stop-dot terra-dot"></div><span class="terra-stop">Rome · Jun 3–6</span></div>
+          <div class="stop-item"><div class="stop-dot terra-dot"></div><span class="terra-stop">Florence · Jun 6–9</span></div>
+          <div class="stop-item"><div class="stop-dot terra-dot"></div><span class="terra-stop">Venice · Jun 9–14</span></div>
+        </div>
+        <button class="btn-preview terra-btn">Open Trip</button>
+      </div>
+      <div class="preview-card terra-card">
+        <div class="terra-section">Vault — Rome</div>
+        <div class="tag-row">
+          <span class="tag-preview terra-tag-1">✈ Transport</span>
+          <span class="tag-preview terra-tag-2">🏨 Hotel</span>
+          <span class="tag-preview terra-tag-3">📄 Docs</span>
+        </div>
+        <div class="stops-row" style="gap:10px">
+          <div class="terra-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title terra-title" style="font-size:0.82rem">Flight FR1234</div>
+            <div class="card-sub terra-sub" style="margin-top:3px">Dep. 08:15 · Seat 14A · Terminal 2</div>
+          </div>
+          <div class="terra-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title terra-title" style="font-size:0.82rem">Hotel Quirinale</div>
+            <div class="card-sub terra-sub" style="margin-top:3px">Ref: QR8821 · Check-in 14:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── 5. VOID+ ── -->
+  <div class="theme-block">
+    <div class="theme-label">
+      <div>
+        <div class="name">⑤ Void+</div>
+        <div class="tagline">Typographic & sharp — Linear meets travel</div>
+      </div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#f2f2f5"></div>
+        <div class="swatch" style="background:#0a0a0f"></div>
+        <div class="swatch" style="background:#2563eb"></div>
+        <div class="swatch" style="background:#7c3aed"></div>
+      </div>
+    </div>
+    <div class="theme-preview void-bg">
+      <div class="preview-card void-card">
+        <div class="void-section">Current Trip</div>
+        <div class="card-header">
+          <div class="card-cover void-cover">🇮🇹</div>
+          <div>
+            <div class="card-title void-title">Italy 2026</div>
+            <div class="card-sub void-sub">Jun 3 – Jun 14 · 3 stops</div>
+          </div>
+        </div>
+        <div class="stops-row">
+          <div class="stop-item"><div class="stop-dot void-dot"></div><span class="void-stop">Rome · Jun 3–6</span></div>
+          <div class="stop-item"><div class="stop-dot void-dot"></div><span class="void-stop">Florence · Jun 6–9</span></div>
+          <div class="stop-item"><div class="stop-dot void-dot"></div><span class="void-stop">Venice · Jun 9–14</span></div>
+        </div>
+        <button class="btn-preview void-btn">Open Trip</button>
+      </div>
+      <div class="preview-card void-card">
+        <div class="void-section">Vault — Rome</div>
+        <div class="tag-row">
+          <span class="tag-preview void-tag-1">✈ Transport</span>
+          <span class="tag-preview void-tag-2">🏨 Hotel</span>
+          <span class="tag-preview void-tag-3">📄 Docs</span>
+        </div>
+        <div class="stops-row" style="gap:10px">
+          <div class="void-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title void-title" style="font-size:0.82rem">Flight FR1234</div>
+            <div class="card-sub void-sub" style="margin-top:3px">Dep. 08:15 · Seat 14A · Terminal 2</div>
+          </div>
+          <div class="void-card" style="padding:10px 12px; border-radius:10px;">
+            <div class="card-title void-title" style="font-size:0.82rem">Hotel Quirinale</div>
+            <div class="card-sub void-sub" style="margin-top:3px">Ref: QR8821 · Check-in 14:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stop View Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f0f0f5; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+  /* Navbar */
+  .navbar { background: #0a0a0f; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .back { color: rgba(255,255,255,0.5); font-size: 1.2rem; cursor: pointer; background: none; border: none; padding: 6px; border-radius: 6px; }
+  .navbar-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: #fff; flex: 1; text-align: center; }
+  .nav-action { color: rgba(255,255,255,0.4); font-size: 1rem; background: none; border: none; cursor: pointer; padding: 6px; border-radius: 6px; }
+
+  /* Hero */
+  .stop-hero {
+    position: relative; height: 180px; overflow: hidden;
+  }
+  .stop-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .stop-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.2) 60%, transparent 100%);
+  }
+  .stop-hero-content {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px;
+  }
+  .stop-breadcrumb { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
+  .stop-hero-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+  .stop-hero-meta { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 4px; display: flex; gap: 12px; }
+
+  /* Page */
+  .page { max-width: 680px; margin: 0 auto; padding: 16px 16px 100px; }
+
+  /* Category tabs */
+  .cat-tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 18px; padding-bottom: 2px; scrollbar-width: none; }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    padding: 6px 13px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+    white-space: nowrap; cursor: pointer; border: 1.5px solid #e4e4ef;
+    background: #fff; color: #6b7280; font-family: 'Inter', sans-serif; transition: all 0.15s;
+  }
+  .cat-tab:hover { background: #f0f0f5; color: #0a0a0f; }
+  .cat-tab.active { background: #0a0a0f; border-color: #0a0a0f; color: #fff; }
+
+  /* Vault items */
+  .vault-section { margin-bottom: 8px; }
+  .vault-section-label { font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Syne', sans-serif; margin-bottom: 8px; }
+
+  .vault-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 13px 14px;
+    background: #fff; border: 1px solid #e4e4ef;
+    border-radius: 10px; margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: all 0.15s;
+  }
+  .vault-item:hover { border-color: #c4c4d8; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .vault-icon { font-size: 1.15rem; flex-shrink: 0; margin-top: 1px; }
+  .vault-body { flex: 1; min-width: 0; }
+  .vault-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; color: #0a0a0f; }
+  .vault-detail { font-size: 0.8rem; color: #6b7280; margin-top: 3px; line-height: 1.4; }
+  .vault-link { color: #2563eb; text-decoration: none; font-size: 0.8rem; font-weight: 500; }
+  .vault-link:hover { text-decoration: underline; }
+  .vault-date { font-size: 0.75rem; color: #9ca3af; margin-top: 5px; }
+  .vault-delete { color: #d1d5db; background: none; border: none; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; padding: 2px; }
+  .vault-delete:hover { color: #dc2626; }
+  .vault-tag {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 2px 8px; border-radius: 12px;
+    font-size: 0.7rem; font-weight: 600; margin-top: 5px;
+  }
+  .tag-transport { background: rgba(37,99,235,0.1); color: #2563eb; }
+  .tag-accommodation { background: rgba(22,163,74,0.1); color: #16a34a; }
+
+  /* File item */
+  .vault-file {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; background: #fff;
+    border: 1px solid #e4e4ef; border-radius: 10px; margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .file-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .file-name { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; color: #0a0a0f; }
+  .file-meta { font-size: 0.75rem; color: #9ca3af; margin-top: 2px; }
+
+  /* FAB */
+  .fab { position: fixed; bottom: 24px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #0a0a0f; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 4px 20px rgba(10,10,15,0.3); }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <button class="back">←</button>
+  <span class="navbar-title">Rome</span>
+  <button class="nav-action">🗑️</button>
+</nav>
+
+<!-- Hero with city image -->
+<div class="stop-hero">
+  <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80" alt="Rome" />
+  <div class="stop-hero-overlay"></div>
+  <div class="stop-hero-content">
+    <div class="stop-breadcrumb">Italy 2026 · Stop 1</div>
+    <div class="stop-hero-name">Rome</div>
+    <div class="stop-hero-meta">
+      <span>📅 3 Jun – 6 Jun</span>
+      <span>⏱ 3 nights</span>
+      <span>📍 Lazio, Italy</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- Category tabs -->
+  <div class="cat-tabs">
+    <button class="cat-tab active">All <span style="margin-left:4px;background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:10px;font-size:0.68rem">7</span></button>
+    <button class="cat-tab">✈️ Transport</button>
+    <button class="cat-tab">🏨 Accommodation</button>
+    <button class="cat-tab">📄 Documents</button>
+    <button class="cat-tab">🔗 Links</button>
+    <button class="cat-tab">📝 Notes</button>
+    <button class="cat-tab">👤 People</button>
+  </div>
+
+  <!-- Transport -->
+  <div class="vault-section">
+    <div class="vault-section-label">✈️ Transport</div>
+
+    <div class="vault-item">
+      <div class="vault-icon">✈️</div>
+      <div class="vault-body">
+        <div class="vault-title">Flight FR 1234 — LHR → FCO</div>
+        <div class="vault-detail">Dep. 08:15 · Terminal 2 · Seat 14A · Gate B22</div>
+        <div class="vault-date">📅 3 Jun 2026</div>
+        <span class="vault-tag tag-transport">Transport</span>
+      </div>
+      <button class="vault-delete">✕</button>
+    </div>
+
+    <div class="vault-item">
+      <div class="vault-icon">🚆</div>
+      <div class="vault-body">
+        <div class="vault-title">Trenitalia FR 9608 — Roma → Firenze</div>
+        <div class="vault-detail">Dep. 09:30 · Carrozza 4 · Posto 22A · Roma Termini</div>
+        <div class="vault-date">📅 6 Jun 2026</div>
+        <span class="vault-tag tag-transport">Transport</span>
+      </div>
+      <button class="vault-delete">✕</button>
+    </div>
+  </div>
+
+  <!-- Accommodation -->
+  <div class="vault-section">
+    <div class="vault-section-label">🏨 Accommodation</div>
+
+    <div class="vault-item">
+      <div class="vault-icon">🏨</div>
+      <div class="vault-body">
+        <div class="vault-title">Hotel Quirinale</div>
+        <div class="vault-detail">Ref: QR-8821-24 · Check-in 14:00 · Check-out 11:00 · Via Nazionale 7, Roma</div>
+        <div class="vault-date">📅 3 – 6 Jun</div>
+        <span class="vault-tag tag-accommodation">Accommodation</span>
+      </div>
+      <button class="vault-delete">✕</button>
+    </div>
+  </div>
+
+  <!-- Documents -->
+  <div class="vault-section">
+    <div class="vault-section-label">📄 Documents</div>
+
+    <div class="vault-file">
+      <div class="file-icon">📋</div>
+      <div style="flex:1;min-width:0">
+        <div class="file-name">Flight Confirmation.pdf</div>
+        <div class="file-meta">PDF · 234 KB · Added 14 May</div>
+      </div>
+      <a href="#" style="font-size:0.78rem;font-weight:600;color:#2563eb;text-decoration:none">View</a>
+    </div>
+
+    <div class="vault-file">
+      <div class="file-icon" style="background:rgba(37,99,235,0.1)">🛂</div>
+      <div style="flex:1;min-width:0">
+        <div class="file-name">Travel Insurance</div>
+        <div class="file-meta">PDF · 1.2 MB · Added 2 May</div>
+      </div>
+      <a href="#" style="font-size:0.78rem;font-weight:600;color:#2563eb;text-decoration:none">View</a>
+    </div>
+  </div>
+
+  <!-- Links -->
+  <div class="vault-section">
+    <div class="vault-section-label">🔗 Links</div>
+
+    <div class="vault-item">
+      <div class="vault-icon">🔗</div>
+      <div class="vault-body">
+        <div class="vault-title">Hotel Booking</div>
+        <a class="vault-link" href="#">booking.com/hotel/quirinale-rome</a>
+      </div>
+      <button class="vault-delete">✕</button>
+    </div>
+  </div>
+
+</div>
+
+<button class="fab">+</button>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trip View Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f0f0f5; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .navbar {
+    background: #0a0a0f;
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .back { color: rgba(255,255,255,0.5); font-size: 1.2rem; cursor: pointer; background: none; border: none; padding: 6px; border-radius: 6px; }
+  .back:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .navbar-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: #fff; flex: 1; text-align: center; letter-spacing: -0.01em; }
+  .nav-action { color: rgba(255,255,255,0.4); font-size: 1rem; background: none; border: none; cursor: pointer; padding: 6px; border-radius: 6px; }
+
+  /* Hero cover */
+  .trip-hero {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 28px 20px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .trip-hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80') center/cover no-repeat;
+    opacity: 0.18;
+  }
+  .trip-hero-content { position: relative; z-index: 1; }
+  .trip-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(37,99,235,0.85);
+    color: #fff; font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 10px;
+    font-family: 'Syne', sans-serif;
+  }
+  .trip-hero-name {
+    font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+    color: #fff; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .trip-hero-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .trip-hero-meta span { font-size: 0.8rem; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 4px; }
+  .trip-hero-emoji { position: absolute; right: 20px; top: 28px; font-size: 2.8rem; opacity: 0.7; }
+
+  /* Page */
+  .page { max-width: 680px; margin: 0 auto; padding: 0 16px 100px; }
+
+  /* Optimizer */
+  .optimizer-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 11px 18px; margin: 20px 0 24px;
+    background: #fff; border: 1.5px solid #e4e4ef;
+    border-radius: 10px; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600; color: #0a0a0f;
+    font-family: 'Syne', sans-serif; letter-spacing: 0.01em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: all 0.15s;
+  }
+  .optimizer-btn:hover { border-color: #2563eb; color: #2563eb; }
+
+  /* Section header */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
+  .add-btn {
+    padding: 6px 13px; background: #0a0a0f; color: #fff;
+    border: none; border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+    cursor: pointer; font-family: 'Syne', sans-serif;
+  }
+
+  /* Timeline */
+  .timeline { position: relative; }
+  .timeline-line {
+    position: absolute; left: 13px; top: 16px; bottom: 16px;
+    width: 2px; background: #e4e4ef; z-index: 0;
+  }
+  .stop-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 10px 0; position: relative; cursor: pointer;
+  }
+  .stop-dot-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    flex-shrink: 0; z-index: 1; padding-top: 2px;
+  }
+  .stop-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #fff; border: 2px solid #2563eb;
+    color: #2563eb; font-size: 0.72rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; flex-shrink: 0;
+  }
+  .stop-card {
+    flex: 1; background: #fff; border: 1px solid #e4e4ef;
+    border-radius: 12px; padding: 13px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    transition: all 0.15s;
+    margin-bottom: 8px;
+  }
+  .stop-card:hover { border-color: #c4c4d8; box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .stop-card-cover {
+    width: 42px; height: 42px; border-radius: 8px;
+    overflow: hidden; flex-shrink: 0;
+    background: #f0f0f5;
+  }
+  .stop-card-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .stop-card-cover-placeholder {
+    width: 42px; height: 42px; border-radius: 8px;
+    background: linear-gradient(135deg, #e4e4ef, #d0d0e0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .stop-info { flex: 1; min-width: 0; }
+  .stop-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: #0a0a0f; }
+  .stop-dates { font-size: 0.76rem; color: #6b7280; margin-top: 2px; }
+  .stop-items-count {
+    font-size: 0.7rem; font-weight: 600;
+    background: rgba(37,99,235,0.1); color: #2563eb;
+    padding: 2px 7px; border-radius: 10px; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .stop-arrow { color: #9ca3af; flex-shrink: 0; }
+
+  /* Image placeholder notice */
+  .img-notice {
+    background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.06));
+    border: 1.5px dashed rgba(37,99,235,0.25);
+    border-radius: 10px; padding: 12px 16px;
+    font-size: 0.8rem; color: #6b7280; display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <button class="back">←</button>
+  <span class="navbar-title">Italy 2026</span>
+  <button class="nav-action">🗑️</button>
+</nav>
+
+<!-- Hero -->
+<div class="trip-hero">
+  <div class="trip-hero-bg"></div>
+  <div class="trip-hero-emoji">🇮🇹</div>
+  <div class="trip-hero-content">
+    <div class="trip-badge">✈ In 12 days</div>
+    <div class="trip-hero-name">Italy 2026</div>
+    <div class="trip-hero-meta">
+      <span>📅 3 Jun – 14 Jun</span>
+      <span>📍 3 stops</span>
+      <span>⏱ 11 nights</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- Optimizer -->
+  <button class="optimizer-btn">
+    ✦ Optimize Trip Order
+  </button>
+
+  <!-- Image DB notice -->
+  <div class="img-notice">
+    🖼️ <span><strong>Country images</strong> will appear as stop thumbnails and hero backgrounds once the image database is connected.</span>
+  </div>
+
+  <!-- Stops -->
+  <div class="section-header">
+    <span class="section-title">Stops</span>
+    <button class="add-btn">+ Add Stop</button>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-line"></div>
+
+    <!-- Stop 1 -->
+    <div class="stop-item">
+      <div class="stop-dot-wrap">
+        <div class="stop-dot">1</div>
+      </div>
+      <div class="stop-card">
+        <div class="stop-card-cover">
+          <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=120&q=70" alt="Rome" />
+        </div>
+        <div class="stop-info">
+          <div class="stop-name">Rome</div>
+          <div class="stop-dates">3 Jun – 6 Jun · 3 nights</div>
+        </div>
+        <span class="stop-items-count">7 items</span>
+        <span class="stop-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- Stop 2 -->
+    <div class="stop-item">
+      <div class="stop-dot-wrap">
+        <div class="stop-dot">2</div>
+      </div>
+      <div class="stop-card">
+        <div class="stop-card-cover">
+          <img src="https://images.unsplash.com/photo-1543429776-2782fc8e1acd?w=120&q=70" alt="Florence" />
+        </div>
+        <div class="stop-info">
+          <div class="stop-name">Florence</div>
+          <div class="stop-dates">6 Jun – 9 Jun · 3 nights</div>
+        </div>
+        <span class="stop-items-count">4 items</span>
+        <span class="stop-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- Stop 3 -->
+    <div class="stop-item">
+      <div class="stop-dot-wrap">
+        <div class="stop-dot">3</div>
+      </div>
+      <div class="stop-card">
+        <div class="stop-card-cover-placeholder">🇮🇹</div>
+        <div class="stop-info">
+          <div class="stop-name">Venice</div>
+          <div class="stop-dates">9 Jun – 14 Jun · 5 nights</div>
+        </div>
+        <span class="stop-items-count">2 items</span>
+        <span class="stop-arrow">›</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
