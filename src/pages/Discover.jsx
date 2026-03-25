@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getPlaceImage, getFlag } from '../data/places'
-import CreateTripModal from '../components/CreateTripModal'
 
 // Curated city collections
 const COLLECTIONS = [
@@ -85,20 +84,11 @@ function CollectionRow({ label, cities, onCityClick }) {
 }
 
 export default function Discover() {
-  const navigate = useNavigate()
   const [activeCategory, setActiveCategory] = useState('all')
-  const [showCreate, setShowCreate] = useState(false)
-  const [prefilledCity, setPrefilledCity] = useState('')
+  const navigate = useNavigate()
 
   function handleCityClick(cityName) {
-    const place = getPlaceImage(cityName)
-    setPrefilledCity(place?.display_name || cityName)
-    setShowCreate(true)
-  }
-
-  function onTripCreated(trip) {
-    setShowCreate(false)
-    navigate(`/trip/${trip.id}`)
+    navigate(`/city/${cityName}`)
   }
 
   const collections = activeCategory === 'all'
@@ -175,20 +165,13 @@ export default function Discover() {
           <button
             className="btn"
             style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', fontSize: '0.8rem' }}
-            onClick={() => setShowCreate(true)}
+            onClick={() => window.dispatchEvent(new CustomEvent('volare:open-ai-chat', { detail: { mode: 'research' } }))}
           >
             ✦ Start Planning
           </button>
         </div>
       </div>
 
-      {showCreate && (
-        <CreateTripModal
-          initialName={prefilledCity}
-          onClose={() => { setShowCreate(false); setPrefilledCity('') }}
-          onCreated={onTripCreated}
-        />
-      )}
     </>
   )
 }

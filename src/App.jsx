@@ -5,9 +5,15 @@ import Auth from './components/Auth'
 import Layout from './components/Layout'
 import Discover from './pages/Discover'
 import Home from './pages/Home'
+import Travel from './pages/Travel'
 import TripView from './pages/TripView'
 import StopView from './pages/StopView'
 import Profile from './pages/Profile'
+import CityView from './pages/CityView'
+import FlightSearch from './pages/FlightSearch'
+import HotelSearch from './pages/HotelSearch'
+import FlightSearchLive from './pages/FlightSearchLive'
+import HotelSearchLive from './pages/HotelSearchLive'
 
 export const AppContext = createContext(null)
 export function useApp() { return useContext(AppContext) }
@@ -61,9 +67,15 @@ VITE_SUPABASE_ANON_KEY=your-anon-key`}
           <Route path="/" element={<Layout />}>
             <Route index element={<Discover />} />
             <Route path="trips" element={<Home />} />
+            <Route path="travel" element={<Travel />} />
             <Route path="profile" element={<Profile />} />
             <Route path="trip/:tripId" element={<TripView />} />
             <Route path="trip/:tripId/stop/:stopId" element={<StopView />} />
+            <Route path="city/:cityName" element={<CityView />} />
+            <Route path="flights" element={<FlightSearch />} />
+            <Route path="hotels" element={<HotelSearch />} />
+            <Route path="flights-live" element={<FlightSearchLive />} />
+            <Route path="hotels-live" element={<HotelSearchLive />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

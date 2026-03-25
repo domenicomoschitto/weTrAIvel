@@ -210,7 +210,7 @@ export const PLACES = [
 
   { name: 'athens',       display_name: 'Athens',       aliases: ['athina'],   region: 'attica',            type: 'city', country_code: 'GR', ...u('1655916355045-0f94f47b398c') },
   { name: 'thessaloniki', display_name: 'Thessaloniki', type: 'city',          region: 'central-macedonia', country_code: 'GR', ...s('thessaloniki greece white tower') },
-  { name: 'santorini',    display_name: 'Santorini',    aliases: ['thira'],    region: 'aegean-islands',    type: 'city', country_code: 'GR', ...u('1506905925-d8149cf06281') },
+  { name: 'santorini',    display_name: 'Santorini',    aliases: ['thira'],    region: 'aegean-islands',    type: 'city', country_code: 'GR', ...u('1533105079780-92b9be482077') },
   { name: 'mykonos',      display_name: 'Mykonos',      region: 'aegean-islands', type: 'city',             country_code: 'GR', ...u('1669842360697-c7eba7310a85') },
   { name: 'rhodes',       display_name: 'Rhodes',       aliases: ['rodos'],    region: 'dodecanese',        type: 'city', country_code: 'GR', ...s('rhodes old town greece') },
   { name: 'corfu',        display_name: 'Corfu',        aliases: ['kerkyra'], region: 'ionian-islands',    type: 'city', country_code: 'GR', ...s('corfu old town greece') },
@@ -430,8 +430,8 @@ export const PLACES = [
   // ────────────────────────────────────────
   // CZECH REPUBLIC — CZ
   // ────────────────────────────────────────
-  { name: 'czech-republic', display_name: 'Czech Republic', aliases: ['czechia','česká republika'], type: 'country', country_code: 'CZ', gradient: '#d7141a,#ffffff,#11457e', ...u('1516680712-8f6f290cc33d') },
-  { name: 'prague',      display_name: 'Prague',      aliases: ['praha'],   type: 'city', country_code: 'CZ', ...u('1516680712-8f6f290cc33d') },
+  { name: 'czech-republic', display_name: 'Czech Republic', aliases: ['czechia','česká republika'], type: 'country', country_code: 'CZ', gradient: '#d7141a,#ffffff,#11457e', ...u('1592906209472-a36b1f3782ef') },
+  { name: 'prague',      display_name: 'Prague',      aliases: ['praha'],   type: 'city', country_code: 'CZ', ...u('1592906209472-a36b1f3782ef') },
   { name: 'brno',        display_name: 'Brno',        type: 'city',         country_code: 'CZ', ...s('brno czech republic city') },
   { name: 'cesky-krumlov', display_name: 'Český Krumlov', aliases: ['cesky krumlov'], type: 'city', country_code: 'CZ', ...s('cesky krumlov castle river') },
   { name: 'karlovy-vary', display_name: 'Karlovy Vary', aliases: ['carlsbad','karlovy vary'], type: 'city', country_code: 'CZ', ...s('karlovy vary spa town czech') },

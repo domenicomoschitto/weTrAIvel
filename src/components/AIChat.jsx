@@ -37,6 +37,22 @@ export default function AIChat() {
   }, [open])
 
   useEffect(() => {
+    function handleOpenChat(e) {
+      const { mode: newMode, city } = e.detail || {}
+      if (newMode && MODES.find(m => m.id === newMode)) {
+        setMode(newMode)
+        const welcome = city
+          ? `Hi! I'm ready to help you plan your trip to **${city}**. Ask me about itineraries, best time to visit, what to see, transport options — anything!`
+          : WELCOME[newMode]
+        setMessages([{ role: 'assistant', content: welcome }])
+      }
+      setOpen(true)
+    }
+    window.addEventListener('volare:open-ai-chat', handleOpenChat)
+    return () => window.removeEventListener('volare:open-ai-chat', handleOpenChat)
+  }, [])
+
+  useEffect(() => {
     if (open && messages.length === 0) {
       setMessages([{ role: 'assistant', content: WELCOME[mode] }])
     }

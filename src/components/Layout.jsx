@@ -2,12 +2,13 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import AIChat from './AIChat'
 
 const TABS = [
-  { path: '/', label: 'Discover', icon: '🧭' },
-  { path: '/trips', label: 'My Trips', icon: '🗺️' },
-  { path: '/profile', label: 'Profile', icon: '👤' },
+  { path: '/',        label: 'Discover', icon: '🧭' },
+  { path: '/trips',   label: 'My Trips', icon: '🗺️' },
+  { path: '/travel',  label: 'Travel',   icon: '✈️'  },
+  { path: '/profile', label: 'Profile',  icon: '👤' },
 ]
 
-const TOP_LEVEL = ['/', '/trips', '/profile']
+const TOP_LEVEL = ['/', '/trips', '/travel', '/profile']
 
 export default function Layout() {
   const navigate = useNavigate()
