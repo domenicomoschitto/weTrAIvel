@@ -25,9 +25,19 @@ const COLLECTIONS = [
     cities: ['positano', 'amalfi', 'tropea', 'siracusa', 'mykonos', 'nice', 'dubrovnik', 'santorini'],
   },
   {
+    id: 'spain',
+    label: '🇪🇸 Spain',
+    cities: ['madrid', 'barcelona', 'sevilla', 'granada', 'bilbao', 'valencia', 'malaga', 'palma', 'cordoba', 'las-palmas'],
+  },
+  {
+    id: 'spain-deep',
+    label: '🇪🇸 Spain — Beyond the Classics',
+    cities: ['zaragoza', 'murcia', 'alicante', 'valladolid', 'vigo', 'gijon', 'vitoria-gasteiz', 'a-coruna', 'elche', 'oviedo'],
+  },
+  {
     id: 'hidden',
     label: '💎 Hidden Gems',
-    cities: ['lecce', 'tropea', 'siena', 'agrigento', 'modena', 'bologna', 'valletta', 'edinburgh', 'sintra'],
+    cities: ['lecce', 'tropea', 'siena', 'agrigento', 'modena', 'bologna', 'valletta', 'edinburgh', 'sintra', 'vitoria-gasteiz', 'vigo', 'elche'],
   },
   {
     id: 'nature',
@@ -47,11 +57,11 @@ const CATEGORIES = [
 ]
 
 const CATEGORY_COLLECTIONS = {
-  beaches: ['tropea', 'siracusa', 'santorini', 'mykonos', 'positano', 'rimini', 'ibiza', 'nice', 'dubrovnik'],
-  cities: ['rome', 'milan', 'florence', 'naples', 'paris', 'barcelona', 'berlin', 'amsterdam', 'vienna'],
-  culture: ['agrigento', 'siracusa', 'athens', 'florence', 'rome', 'palermo', 'lecce', 'prague', 'istanbul', 'edinburgh'],
-  nature: ['zurich', 'interlaken', 'cinque-terre', 'tuscany', 'agrigento', 'amalfi', 'santorini'],
-  food: ['modena', 'bologna', 'naples', 'palermo', 'catania', 'paris', 'barcelona', 'porto'],
+  beaches: ['tropea', 'siracusa', 'santorini', 'mykonos', 'positano', 'rimini', 'ibiza', 'nice', 'dubrovnik', 'malaga', 'alicante', 'palma', 'las-palmas', 'valencia'],
+  cities: ['rome', 'milan', 'florence', 'naples', 'paris', 'barcelona', 'berlin', 'amsterdam', 'vienna', 'madrid', 'bilbao', 'sevilla'],
+  culture: ['agrigento', 'siracusa', 'athens', 'florence', 'rome', 'palermo', 'lecce', 'prague', 'istanbul', 'edinburgh', 'cordoba', 'granada', 'sevilla', 'bilbao'],
+  nature: ['zurich', 'interlaken', 'cinque-terre', 'tuscany', 'agrigento', 'amalfi', 'santorini', 'las-palmas', 'vigo'],
+  food: ['modena', 'bologna', 'naples', 'palermo', 'catania', 'paris', 'barcelona', 'porto', 'madrid', 'sevilla', 'bilbao', 'valencia'],
   nightlife: ['rimini', 'berlin', 'ibiza', 'barcelona', 'amsterdam', 'madrid', 'prague'],
 }
 
