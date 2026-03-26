@@ -7,27 +7,32 @@ const COLLECTIONS = [
   {
     id: 'hot',
     label: '🔥 Hot Right Now',
-    cities: ['santorini', 'amalfi', 'barcelona', 'dubrovnik'],
+    cities: ['tropea', 'siracusa', 'lecce', 'agrigento', 'catania', 'palermo'],
   },
   {
     id: 'city-breaks',
     label: '🏙️ City Breaks',
-    cities: ['rome', 'paris', 'amsterdam', 'prague', 'vienna', 'berlin'],
+    cities: ['rome', 'milan', 'florence', 'naples', 'bologna', 'paris', 'amsterdam', 'prague', 'vienna', 'berlin'],
+  },
+  {
+    id: 'italy',
+    label: '🇮🇹 Italy — Deep Cuts',
+    cities: ['siena', 'verona', 'padova', 'genoa', 'modena', 'pisa', 'salerno', 'bari', 'brindisi', 'reggio-emilia', 'livorno', 'rimini', 'caserta'],
   },
   {
     id: 'coastal',
     label: '🌊 Coastal Gems',
-    cities: ['positano', 'mykonos', 'nice', 'valletta', 'lisbon', 'porto'],
+    cities: ['positano', 'amalfi', 'tropea', 'siracusa', 'mykonos', 'nice', 'dubrovnik', 'santorini'],
   },
   {
     id: 'hidden',
-    label: '🗺️ Hidden Gems',
-    cities: ['porto', 'valletta', 'edinburgh', 'florence', 'sintra', 'bologna'],
+    label: '💎 Hidden Gems',
+    cities: ['lecce', 'tropea', 'siena', 'agrigento', 'modena', 'bologna', 'valletta', 'edinburgh', 'sintra'],
   },
   {
     id: 'nature',
     label: '🏔️ Nature & Scenery',
-    cities: ['zurich', 'interlaken', 'cinque-terre', 'athens', 'tuscany', 'santorini'],
+    cities: ['zurich', 'interlaken', 'cinque-terre', 'agrigento', 'tuscany', 'santorini'],
   },
 ]
 
@@ -42,12 +47,12 @@ const CATEGORIES = [
 ]
 
 const CATEGORY_COLLECTIONS = {
-  beaches: ['santorini', 'mykonos', 'positano', 'ibiza', 'nice', 'dubrovnik'],
-  cities: ['rome', 'paris', 'barcelona', 'berlin', 'amsterdam', 'vienna'],
-  culture: ['athens', 'florence', 'rome', 'prague', 'istanbul', 'edinburgh'],
-  nature: ['zurich', 'interlaken', 'cinque-terre', 'tuscany', 'amalfi', 'santorini'],
-  food: ['bologna', 'naples', 'paris', 'barcelona', 'lyon', 'porto'],
-  nightlife: ['berlin', 'ibiza', 'barcelona', 'amsterdam', 'madrid', 'prague'],
+  beaches: ['tropea', 'siracusa', 'santorini', 'mykonos', 'positano', 'rimini', 'ibiza', 'nice', 'dubrovnik'],
+  cities: ['rome', 'milan', 'florence', 'naples', 'paris', 'barcelona', 'berlin', 'amsterdam', 'vienna'],
+  culture: ['agrigento', 'siracusa', 'athens', 'florence', 'rome', 'palermo', 'lecce', 'prague', 'istanbul', 'edinburgh'],
+  nature: ['zurich', 'interlaken', 'cinque-terre', 'tuscany', 'agrigento', 'amalfi', 'santorini'],
+  food: ['modena', 'bologna', 'naples', 'palermo', 'catania', 'paris', 'barcelona', 'porto'],
+  nightlife: ['rimini', 'berlin', 'ibiza', 'barcelona', 'amsterdam', 'madrid', 'prague'],
 }
 
 function DestCard({ cityName, onClick }) {
